@@ -505,7 +505,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 518366315}
-  - component: {fileID: 518366314}
   - component: {fileID: 518366313}
   - component: {fileID: 518366312}
   - component: {fileID: 518366311}
@@ -595,23 +594,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518366310}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &518366314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 518366310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af17eb734ce2e418cae1a3c1bc36fab5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WASDController
-  moveForce: 3
-  keyLeft: 15
-  keyRight: 18
-  keyForward: 37
-  keyBackward: 33
 --- !u!4 &518366315
 Transform:
   m_ObjectHideFlags: 0
@@ -635,7 +617,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518366310}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1701,10 +1683,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WASDController
   moveForce: 3
+  moveSpeed: 10
   keyLeft: 15
   keyRight: 18
-  keyForward: 37
-  keyBackward: 33
+  keyUp: 37
+  keyForward: 33
 --- !u!135 &1378446113
 SphereCollider:
   m_ObjectHideFlags: 0
