@@ -3,91 +3,77 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    //this variable stores the rigidbody
     private Rigidbody rb;
 
-    public float moveSpeed;
-    
-    public float jumpSpeed;
+//this variable stores the speed of the player Game Object
+    public float moveSpeed = 5f;
 
+//this variable stores the jump speed of the player Game Object    
+    public float jumpSpeed = 5f;
+
+//this variable stores the rotate speed for the look action
+    //public float lookSpeed;
+
+//variable to hold the input action asset, gives access to all actions in asset
     public InputActionAsset inputActions;
 
-    //public PlayerInput Player;
-
+//for each action used create a variable to store them
     private InputAction moveAction;
-    
     private InputAction jumpAction;
-    
-    public float horizontalInput; 
-    
-    public float verticalInput;
-    
-    public Vector2 moveInput;
-    
-    //need to add horizontal and vertical input and call it in the moveAction method
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Start()
+
+//these variables store the x and y-axis values
+    private Vector2 moveAmount; 
+//activates the action map if the player Game Object is active in the scene
+    private void OnEnable()
+        {
+            inputActions.FindActionMap("Player").Enable();
+        }
+//if player Game Object is destroyed then this disables the action map    
+    private void OnDisable()
+        {
+            inputActions.FindActionMap("Player").Disable();
+        } 
+    // public void Start()
+    // {
+    //     //InputActions = Resources.Load<InputActionAsset>("InputActions");
+    //     
+    // }
+    //
+    private void Awake()
     {
-        inputActions = Resources.Load<InputActionAsset>("InputActions");
+ //assigns jump and move actions to respective actions in the input system       
+        moveAction = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump");
         rb = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        inputActions.FindActionMap("Player").Enable();
-    }
+        moveAmount = moveAction.ReadValue<Vector2>();
 
-    private void OnDisable()
+        if (jumpAction.WasPressedThisFrame())
+        {
+            Jump();
+        }
+    }
+    private void Jump()
     {
-        inputActions.FindActionMap("Player").Disable();
+        rb.AddForceAtPosition(new Vector3(0, jumpSpeed, 0), Vector3.up, ForceMode.Impulse);
     }
-
-    private void Awake()
-    {
-        moveAction = inputActions.FindAction("Move");
-        jumpAction = inputActions.FindAction("Jump");
-        moveInput = inputActions.Player.Move.ReadValue<Vector2>();
-        horizontalInput = moveInput.x;
-        verticalInput = moveInput.y;
-    }
-
-    // Update is called once per frame
     private void FixedUpdate()
     {
         Move();
-        Jump();
     }
-
-    private void Jump()
-    {
-        if (jumpAction.IsPressed())
-        {
-            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-        }
-    }
-
     private void Move()
     {
-        if (moveAction.IsPressed())
-        {
-
-        }
+        rb.linearVelocity = new Vector3(moveAmount.x * moveSpeed, rb.linearVelocity.y, moveAmount.y * moveSpeed);
+        //rb.MovePosition(rb.position + transform.position * moveAmount.y * moveSpeed * Time.deltaTime);
+        // if (moveAction.IsPressed()) 
+        // { 
+        //     Vector2 input = moveAction.ReadValue<Vector2>();
+        //     Vector3 movement = new Vector3(input.x, 0, input.y) * moveSpeed;
+        //     rb.AddForce(movement, ForceMode.Force);
+        //;
     }
-
-    // {
-    //         if (keyboard[keyLeft].isPressed)
-    //         {
-    //             //rb.AddForce(Vector3.left * moveForce, ForceMode.Acceleration); //give GameObject a leftward force
-    //             transform.position += Vector3.left * Time.deltaTime;
-    //             Debug.Log ("going left!");
-    //         }
-    //
-    //         if (keyboard[keyRight].isPressed)
-    //         {
-    //             //rb.AddForce(Vector3.right * moveForce, ForceMode.Acceleration); //give GameObject a rightward force
-    //             //rb.linearVelocity = transform.right * moveSpeed;
-    //             transform.position += Vector3.right * Time.deltaTime;
-    //             Debug.Log ("going right!");
-    //         }
-    //     }
-    // }
 }
