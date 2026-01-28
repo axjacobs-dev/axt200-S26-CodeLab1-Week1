@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private InputAction moveAction;
     private InputAction jumpAction;
 
+    private bool isGrounded;
+
 //these variables store the x and y-axis values
     private Vector2 moveAmount; 
 //activates the action map if the player Game Object is active in the scene
@@ -43,23 +45,25 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
  //assigns jump and move actions to respective actions in the input system       
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
+        moveAction = inputActions.FindActionMap("Player").FindAction("Move");
+        jumpAction = inputActions.FindActionMap("Player").FindAction("Jump");
         rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         moveAmount = moveAction.ReadValue<Vector2>();
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
 
-        if (jumpAction.WasPressedThisFrame())
+        if (jumpAction.WasPressedThisFrame() && isGrounded)
         {
             Jump();
         }
     }
     private void Jump()
     {
-        rb.AddForceAtPosition(new Vector3(0, jumpSpeed, 0), Vector3.up, ForceMode.Impulse);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpSpeed, rb.linearVelocity.z);
+
     }
     private void FixedUpdate()
     {
