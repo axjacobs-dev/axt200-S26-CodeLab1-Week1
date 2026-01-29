@@ -2887,7 +2887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08921fd63661e274b91e5eca61748283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TriggerScene
-  sceneToLoad: End
+  sceneToLoad: Hell
 --- !u!65 &1757381751
 BoxCollider:
   m_ObjectHideFlags: 0
