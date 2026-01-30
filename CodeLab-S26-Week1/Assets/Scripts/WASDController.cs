@@ -55,10 +55,8 @@ public class WASDController : MonoBehaviour
         {
             //rb.AddForce(Vector3.back * moveForce, ForceMode.Acceleration); //GameObject moves backwards
             transform.position += Vector3.forward * Time.deltaTime;
-            Debug.Log ("going backward!");
+            Debug.Log ("going back!");
         }
-
-
 
         // if(Input.GetKey(KeyCode.S))
         // {

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrounded;
 
-//these variables store the x and y-axis values
+//this variable stores the x and y-axis values
     private Vector2 moveAmount; 
 //activates the action map if the player Game Object is active in the scene
     private void OnEnable()
@@ -36,12 +36,7 @@ public class PlayerController : MonoBehaviour
         {
             inputActions.FindActionMap("Player").Disable();
         } 
-    // public void Start()
-    // {
-    //     //InputActions = Resources.Load<InputActionAsset>("InputActions");
-    //     
-    // }
-    //
+    
     private void Awake()
     {
  //assigns jump and move actions to respective actions in the input system       
@@ -52,9 +47,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //reads Vector2 value
         moveAmount = moveAction.ReadValue<Vector2>();
+        //performs ground check
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
-
+        //waspressedthisframe 'returns true if the action's value crossed the press threshold at any point in the frame'
         if (jumpAction.WasPressedThisFrame() && isGrounded)
         {
             Jump();
@@ -62,6 +59,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
+        //linear velocity is rate of change of rb position, preferred this over add force because it results in a forward moving jump
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpSpeed, rb.linearVelocity.z);
 
     }
@@ -72,12 +70,6 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         rb.linearVelocity = new Vector3(moveAmount.x * moveSpeed, rb.linearVelocity.y, moveAmount.y * moveSpeed);
-        //rb.MovePosition(rb.position + transform.position * moveAmount.y * moveSpeed * Time.deltaTime);
-        // if (moveAction.IsPressed()) 
-        // { 
-        //     Vector2 input = moveAction.ReadValue<Vector2>();
-        //     Vector3 movement = new Vector3(input.x, 0, input.y) * moveSpeed;
-        //     rb.AddForce(movement, ForceMode.Force);
-        //;
+        
     }
 }
